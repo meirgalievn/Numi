@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUMI — Minimalist University Hub</title>
+  <meta name="description" content="Curated academic roadmaps, subject mastery, and Tomorrow School accelerators.">
+  
+  <!-- Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            pitch: '#0b0b0b',
+            charcoal: '#141414',
+            surface: '#181818',
+            borderDim: '#262626',
+            borderSubtle: '#1d1d1d',
+            mutedText: '#737373',
+            secondaryText: '#a1a1a1',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          letterSpacing: {
+            editorial: '0.22em',
+            tightest: '-0.06em',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    body {
+      background-color: #0b0b0b;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      cursor: default;
+    }
+    ::selection {
+      background-color: #ffffff;
+      color: #0b0b0b;
+    }
+
+    .bg-grid-pattern {
+      background-size: 48px 48px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    }
+    .vertical-lr {
+      writing-mode: vertical-lr;
+    }
+    .editorial-border {
+      border: 1px solid #262626;
+    }
+
+    /* NUMI Cinematic Reveal & Living State System */
+    .numi-hero-title {
+      font-family: 'Inter', sans-serif;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: filter 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .numi-char {
+      display: inline-block;
+      opacity: 0;
+      filter: blur(14px);
+      transform: translateY(18px);
+      transition: filter 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+      will-change: transform, opacity, filter;
+    }
+
+    /* Flash accent when letter locks in during reveal */
+    .numi-char.char-locked {
+      filter: drop-shadow(0 0 25px #ffffff) brightness(1.6);
+      transform: scale(1.06);
+    }
+
+    /* Living Permanent State (Organic breathing & subtle titanium light sweep) */
+    .numi-hero-title.is-alive {
+      background: linear-gradient(
+        110deg,
+        #ebebeb 0%,
+        #ffffff 25%,
+        #9c9c9c 45%,
+        #ffffff 65%,
+        #ffffff 80%,
+        #d1d1d1 100%
+      );
+      background-size: 260% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: livingGlow 5.5s ease-in-out infinite, livingShimmer 8.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .numi-hero-title.is-alive .numi-char {
+      opacity: 1 !important;
+      filter: none;
+    }
+
+    /* Organic Ambient Luminescence */
+    @keyframes livingGlow {
+      0%, 100% {
+        filter: drop-shadow(0 0 22px rgba(255, 255, 255, 0.22)) drop-shadow(0 0 55px rgba(255, 255, 255, 0.08));
+      }
+      50% {
+        filter: drop-shadow(0 0 45px rgba(255, 255, 255, 0.45)) drop-shadow(0 0 95px rgba(255, 255, 255, 0.18));
+      }
+    }
+
+    /* Metallic Light Sweep across letters */
+    @keyframes livingShimmer {
+      0% {
+        background-position: 100% 0;
+      }
+      50% {
+        background-position: 0% 0;
+      }
+      100% {
+        background-position: 100% 0;
+      }
+    }
+
+    /* Organic Floating Micro-Dynamics for individual letters in living state */
+    .numi-hero-title.is-alive .numi-char:nth-child(1) {
+      animation: livingFloat 5.6s ease-in-out infinite 0s;
+    }
+    .numi-hero-title.is-alive .numi-char:nth-child(2) {
+      animation: livingFloat 5.6s ease-in-out infinite 0.7s;
+    }
+    .numi-hero-title.is-alive .numi-char:nth-child(3) {
+      animation: livingFloat 5.6s ease-in-out infinite 1.4s;
+    }
+    .numi-hero-title.is-alive .numi-char:nth-child(4) {
+      animation: livingFloat 5.6s ease-in-out infinite 2.1s;
+    }
+
+    @keyframes livingFloat {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-3.5px);
+      }
+    }
+
+    .numi-hero-title.is-alive:hover {
+      filter: drop-shadow(0 0 55px rgba(255, 255, 255, 0.55)) drop-shadow(0 0 115px rgba(255, 255, 255, 0.28));
+      transform: scale(1.015);
+    }
+
+    /* Accordion Grid Expand Transition (Zero jump, buttery smooth) */
+    .accordion-content {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 350ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .accordion-content.open {
+      grid-template-rows: 1fr;
+    }
+    .accordion-inner {
+      overflow: hidden;
+    }
+
+    /* Tomorrow School Ambient Pulse */
+    .tomorrow-glow {
+      box-shadow: 0 0 35px -8px rgba(255, 255, 255, 0.08);
+    }
+
+    /* Modal Animation */
+    #booking-modal {
+      transition: opacity 220ms ease, visibility 220ms ease;
+    }
+    #booking-modal.hidden-modal {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    #booking-modal.visible-modal {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    #modal-box {
+      transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hidden-modal #modal-box {
+      transform: scale(0.96) translateY(12px);
+    }
+    .visible-modal #modal-box {
+      transform: scale(1) translateY(0);
+    }
+
+    /* Subtle Toast */
+    #toast {
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Canvas Overlay strictly for Massive Glyph Trail */
+    #cursor-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body class="bg-pitch text-white min-h-screen antialiased bg-grid-pattern relative">
+
+  <!-- Massive Glyph Particle Trail Canvas Overlay (Zero Circles, Pure Big Typography) -->
+  <canvas id="cursor-canvas"></canvas>
+
+  <!-- Ambient Top Subtle Light -->
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[700px] h-[220px] bg-white/[0.015] blur-[140px] pointer-events-none rounded-full"></div>
+
+  <!-- Page Container -->
+  <div class="max-w-[1300px] mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8 relative z-10">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="editorial-border bg-charcoal/80 backdrop-blur-md mb-8 sm:mb-12 sticky top-4 z-40 transition-all">
+      <div class="flex items-center justify-between px-6 py-4 sm:px-8">
+        
+        <!-- Brand Logo -->
+        <a href="#" id="header-logo" class="flex items-center gap-3 group select-none">
+          <span id="header-logo-text" class="font-black text-xl sm:text-2xl tracking-[0.25em] text-white transition-all duration-300 group-hover:text-white group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.45)]">
+            NUMI
+          </span>
+          <span class="hidden md:inline-block font-mono text-[9px] tracking-widest text-mutedText uppercase pl-2 border-l border-borderDim">
+            Academia &bull; Hub
+          </span>
+        </a>
+
+        <!-- Navigation Links -->
+        <nav class="hidden md:flex items-center space-x-8 text-xs font-medium tracking-[0.15em] uppercase text-secondaryText">
+          <a href="#curriculum" class="hover:text-white transition-colors duration-200">Curriculum</a>
+          <a href="#card-06" onclick="setTimeout(() => toggleCard('card-06', true), 100)" class="hover:text-white transition-colors duration-200 text-white font-medium">Tomorrow School</a>
+          <a href="#pro-pass" class="hover:text-white transition-colors duration-200">PRO Pass</a>
+          <a href="#contact" class="hover:text-white transition-colors duration-200">Contact</a>
+        </nav>
+
+        <!-- Action Button -->
+        <div class="flex items-center space-x-4">
+          <button onclick="openBookingModal('General Campus', 'Student Membership', 'Free')" class="inline-flex items-center justify-center px-4 py-2 text-xs font-mono tracking-wider uppercase text-white bg-pitch border border-borderDim hover:border-white transition-all duration-300 group">
+            <span class="group-hover:translate-x-0.5 transition-transform duration-200">Join Hub</span>
+            <span class="ml-2 text-mutedText group-hover:text-white transition-colors">&rarr;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Sub-Nav -->
+      <div class="flex md:hidden items-center justify-around py-2 px-4 border-t border-borderDim text-[10px] font-mono tracking-wider text-mutedText uppercase">
+        <a href="#curriculum" class="hover:text-white">Curriculum</a>
+        <a href="#card-06" class="hover:text-white text-white">Tomorrow</a>
+        <a href="#pro-pass" class="hover:text-white">PRO Pass</a>
+        <a href="#contact" class="hover:text-white">Contact</a>
+      </div>
+    </header>
+
+
+    <!-- SECTION .01: HERO STAGE (MINIMALIST & ANIMATED) -->
+    <section class="relative mb-16 sm:mb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-[50px_1fr] gap-6 items-start">
+        
+        <!-- Edge Marker .01 -->
+        <div class="hidden lg:flex flex-col items-center pt-8 text-mutedText font-mono select-none">
+          <span class="text-xs tracking-editorial text-secondaryText font-medium">.01</span>
+          <div class="w-[1px] h-24 bg-borderDim my-4"></div>
+          <span class="vertical-lr text-[10px] tracking-[0.3em] uppercase text-mutedText">HERO</span>
+        </div>
+
+        <!-- Main Hero Card -->
+        <div class="editorial-border bg-charcoal relative p-8 sm:p-14 lg:p-20 overflow-hidden shadow-2xl">
+          
+          <!-- Corner Accents -->
+          <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/40"></div>
+          <div class="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/40"></div>
+          <div class="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/40"></div>
+          <div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/40"></div>
+
+          <!-- Top Meta Bar -->
+          <div class="flex items-center justify-between pb-6 mb-8 sm:mb-12 border-b border-borderDim text-[11px] font-mono tracking-widest text-mutedText uppercase">
+            <div class="flex items-center space-x-2.5">
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span class="text-secondaryText">ACADEMIC HUB // EST. 2026</span>
+            </div>
+            <span>PEER ACCELERATION</span>
+          </div>
+
+          <!-- Hero Stage -->
+          <div class="relative grid grid-cols-1 md:grid-cols-[30px_1fr_30px] items-center gap-6">
+            
+            <!-- Left Rail -->
+            <div class="hidden md:flex flex-col justify-between items-center h-full py-4 text-[10px] font-mono text-mutedText select-none">
+              <a href="#contact" class="hover:text-white transition-colors">TG</a>
+              <div class="w-[1px] h-10 bg-borderDim my-2"></div>
+              <a href="#contact" class="hover:text-white transition-colors">GH</a>
+            </div>
+
+            <!-- Center Content -->
+            <div class="flex flex-col items-center text-center px-2 sm:px-6">
+              
+              <!-- Eyebrow -->
+              <div class="inline-flex items-center px-3 py-1 mb-6 border border-borderDim bg-pitch/60 text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-secondaryText">
+                <span>PEER-TO-PEER UNIVERSITY NETWORK</span>
+              </div>
+
+              <!-- HERO LOGO: NUMI (Cinematic One-Time Entrance -> Living Permanent State) -->
+              <div class="relative py-2 my-2 select-none">
+                <h1 id="hero-numi-title" class="numi-hero-title text-7xl sm:text-9xl md:text-[10rem] lg:text-[11.5rem] font-black tracking-tightest leading-none text-white inline-flex items-center justify-center">
+                  <span class="numi-char" data-char="N">N</span>
+                  <span class="numi-char" data-char="U">U</span>
+                  <span class="numi-char" data-char="M">M</span>
+                  <span class="numi-char" data-char="I">I</span>
+                </h1>
+              </div>
+
+              <!-- Ultra-short Subtitle -->
+              <p class="mt-4 sm:mt-6 max-w-lg text-base sm:text-lg font-normal text-neutral-200 leading-relaxed tracking-tight">
+                Academic roadmaps, subject mastery, and Tomorrow School accelerators.
+              </p>
+
+              <!-- Actions -->
+              <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5 w-full sm:w-auto">
+                <a href="#curriculum" class="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 bg-white text-pitch font-mono text-xs font-semibold tracking-wider uppercase hover:bg-neutral-200 transition-colors shadow-lg">
+                  Explore Tracks
+                </a>
+                <a href="#card-06" onclick="setTimeout(() => toggleCard('card-06', true), 200)" class="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 bg-pitch text-white border border-borderDim font-mono text-xs tracking-wider uppercase hover:border-white transition-all group">
+                  <span>Tomorrow School</span>
+                  <span class="ml-2 text-mutedText group-hover:text-white transition-colors">&rarr;</span>
+                </a>
+              </div>
+
+            </div>
+
+            <!-- Right Rail -->
+            <div class="hidden md:flex flex-col justify-between items-center h-full py-4 text-[10px] font-mono text-mutedText select-none">
+              <span class="vertical-lr tracking-[0.25em] text-secondaryText font-medium">.01 / HERO</span>
+              <div class="w-[1px] h-12 bg-borderDim my-3 animate-pulse"></div>
+              <span class="vertical-lr tracking-[0.2em] text-mutedText uppercase">SCROLL &darr;</span>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SECTION .02: CURRICULUM (CLEAN MINIMAL BLOCKS — OPEN TO REVEAL) -->
+    <section id="curriculum" class="relative mb-16 sm:mb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-[50px_1fr] gap-6 items-start">
+        
+        <!-- Edge Marker .02 -->
+        <div class="hidden lg:flex flex-col items-center pt-8 text-mutedText font-mono select-none sticky top-24">
+          <span class="text-xs tracking-editorial text-secondaryText font-medium">.02</span>
+          <div class="w-[1px] h-24 bg-borderDim my-4"></div>
+          <span class="vertical-lr text-[10px] tracking-[0.3em] uppercase text-mutedText">CURRICULUM</span>
+        </div>
+
+        <div class="editorial-border bg-charcoal relative p-6 sm:p-10 lg:p-12 overflow-hidden">
+          
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between pb-6 mb-6 border-b border-borderDim gap-4">
+            <div>
+              <div class="font-mono text-[10px] tracking-editorial text-mutedText uppercase mb-1">.02 // DISCIPLINES</div>
+              <h2 class="text-2xl sm:text-4xl font-bold tracking-tight text-white uppercase">Curriculum</h2>
+            </div>
+            <div class="flex items-center gap-3 text-xs font-mono text-mutedText">
+              <span>6 BLOCKS</span>
+              <span>&bull;</span>
+              <span class="text-secondaryText">CLICK ANY BLOCK TO EXPAND</span>
+            </div>
+          </div>
+
+          <!-- ALL BLOCKS ARE CLOSED BY DEFAULT -->
+          <div class="space-y-3">
+
+            <!-- Block 01 -->
+            <div id="card-01" class="subject-card border border-borderDim bg-pitch transition-all duration-300 hover:border-neutral-500">
+              <button onclick="toggleCard('card-01')" class="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 focus:outline-none group">
+                <div class="flex items-center gap-4 sm:gap-6">
+                  <span class="font-mono text-xs text-mutedText group-hover:text-white transition-colors">01</span>
+                  <div class="font-bold text-base sm:text-lg text-white group-hover:text-neutral-200 transition-colors">
+                    Introduction to Programming (Go / C++ / Algorithms)
+                  </div>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="card-status font-mono text-[10px] tracking-wider uppercase text-mutedText group-hover:text-white">OPEN +</span>
+                  <span class="chevron font-mono text-xs text-mutedText transition-transform duration-300">&darr;</span>
+                </div>
+              </button>
+
+              <div class="accordion-content">
+                <div class="accordion-inner">
+                  <div class="px-5 pb-6 sm:px-6 border-t border-borderDim pt-5 space-y-4">
+                    <p class="text-xs text-neutral-300">Procedural logic, pointers, memory models, and algorithmic complexity.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div class="p-4 border border-borderDim bg-[#111111] flex flex-col justify-between">
+                        <div>
+                          <div class="font-mono text-[10px] text-emerald-400 uppercase tracking-widest mb-1.5">// FREE COMMONS</div>
+                          <div class="text-xs text-white font-medium">Lecture Notes &amp; Concurrency Cheat Sheets</div>
+                        </div>
+                        <button onclick="triggerToast('Downloaded: Programming Cheat Sheet')" class="mt-4 text-left font-mono text-[11px] text-white hover:underline">
+                          Download Notes &darr;
+                        </button>
+                      </div>
+                      <div class="p-4 border border-borderDim bg-pitch flex flex-col justify-between">
+                        <div>
+                          <div class="font-mono text-[10px] text-secondaryText uppercase tracking-widest mb-1.5">// PEER MENTORING</div>
+                          <div class="text-xs text-white font-medium flex items-center justify-between">
+                            <span>1-on-1 Code Review</span>
+                            <span class="font-mono font-bold">5,000 ₸</span>
+                          </div>
+                        </div>
+                        <button onclick="openBookingModal('Intro to Programming', '1-on-1 Code Review', '5,000 ₸ (~$12)')" class="mt-4 px-3 py-1.5 bg-white text-pitch font-mono text-[10px] font-bold uppercase hover:bg-neutral-200 transition-colors self-start">
+                          Book Session &rarr;
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Block 02 -->
+            <div id="card-02" class="subject-card border border-borderDim bg-pitch transition-all duration-300 hover:border-neutral-500">
+              <button onclick="toggleCard('card-02')" class="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 focus:outline-none group">
+                <div class="flex items-center gap-4 sm:gap-6">
+                  <span class="font-mono text-xs text-mutedText group-hover:text-white transition-colors">02</span>
+                  <div class="font-bold text-base sm:text-lg text-white group-hover:text-neutral-200 transition-colors">
+                    Information &amp; Communication Technologies (ICT)
+                  </div>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="card-status font-mono text-[10px] tracking-wider uppercase text-mutedText group-hover:text-white">OPEN +</span>
+                  <span class="chevron font-mono text-xs text-mutedText transition-transform duration-300">&darr;</span>
+                </div>
+              </button>
+
+              <div class="accordion-content">
+                <div class="accordion-inner">
+                  <div class="px-5 pb-6 sm:px-6 border-t border-borderDim pt-5 space-y-4">
+                    <p class="text-xs text-neutral-300">Networking protocols (OSI), relational databases (SQL), and cloud systems.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div class="p-4 border border-borderDim bg-[#111111] flex flex-col justify-between">
+                        <div>
+                          <div class="font-mono text-[10px] text-emerald-400 uppercase tracking-widest mb-1.5">// FREE COMMONS</div>
+                          <div class="text-xs text-white font-medium">Subnetting Formulas &amp; SQL Query Guide</div>
+                        </div>
+                        <button onclick="triggerToast('Downloaded: ICT Study Guide')" class="mt-4 text-left font-mono text-[11px] text-white hover:underline">
+                          Download Guide &darr;
+                        </button>
+                      </div>
+                      <div class="p-4 border border-borderDim bg-pitch flex flex-col justify-between">
+                        <div>
+                          <div class="font-mono text-[10px] text-secondaryText uppercase tracking-widest mb-1.5">// PEER MENTORING</div>
+                          <div class="text-xs text-white font-medium flex items-center justify-between">
+                            <span>Lab Defense &amp; Exam Prep</span>
+                            <span class="font-mono font-bold">4,500 ₸</span>
+                          </div>
+                        </div>
+                        <button onclick="openBookingModal('ICT', 'Lab Defense & Exam Prep', '4,500 ₸')" class="mt-4 px-3 py-1.5 bg-white text-pitch font-mono text-[10px] font-bold uppercase hover:bg-neutral-200 transition-colors self-start">
+                          Book Session &rarr;
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Block 03 -->
+            <div id="card-03" class="subject-card border border-borderDim bg-pitch transition-all duration-300 hover:border-neutral-500">
+              <button onclick="toggleCard('card-03')" class="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 focus:outline-none group">
+                <div class="flex items-center gap-4 sm:gap-6">
+                  <span class="font-mono text-xs text-mutedText group-hover:text-white transition-colors">03</span>
+                  <div class="font-bold text-base sm:text-lg text-white group-hover:text-neutral-200 transition-colors">
+                    History of Kazakhstan
+                  </div>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="card-status font-mono text-[10px] tracking-wider uppercase text-mutedText group-hover:text-white">OPEN +</span>
+                  <span class="chevron font-mono text-xs text-mutedText transition-transform duration-300">&darr;</span>
+                </div>
+              </button>
+
+              <div class="accordion-content">
+                <div class="accordion-inner">
+                  <div class="px-5 pb-6 sm:px-6 border-t border-borderDim pt-5 space-y-4">
+                    <p class="text-xs text-neutral-300">Chronology of statehood, Alash Orda heritage, and state exam question pools.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div class="p-4 border border-borderDim bg-[#111111] flex flex-col justify-between">
+                        <div>
+                          <div class="font-mono text-[10px] text-emerald-400 uppercase tracking-widest mb-1.5">// FREE COMMONS</div>
+                          <div class="text-xs text-white font-medium">Dates &amp; Battles Chronology Timeline Table</div>
+                        </div>
+                        <button onclick="triggerToast('Downloaded: History Timeline Table')" class="mt-4 text-left font-mono text-[11px] text-white hover:underline">
+                          Download PDF &darr;
+                        </button>
+                      </div>
+                      <div class="p-4 border border-borderDim bg-pitch flex flex-col justify-between">
+                        <div>
+                          <div class="font-mono text-[10px] text-secondaryText uppercase tracking-widest mb-1.5">// PEER MENTORING</div>
+                          <div class="text-xs text-white font-medium flex items-center justify-between">
+                            <span>Oral Defense Drills (500+ Qs)</span>
+                            <span class="font-mono font-bold">4,000 ₸</span>
+                          </div>
+                        </div>
+                        <button onclick="openBookingModal('History of Kazakhstan', 'Oral Defense Drill', '4,000 ₸')" class="mt-4 px-3 py-1.5 bg-white text-pitch font-mono text-[10px] font-bold uppercase hover:bg-neutral-200 transition-colors self-start">
+                          Book Session &rarr;
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Block 04 -->
+            <div id="card-04" class="subject-card border border-borderDim bg-pitch transition-all duration-300 hover:border-neutral-500">
+              <button onclick="toggleCard('card-04')" class="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 focus:outline-none group">
+                <div class="flex items-center gap-4 sm:gap-6">
+                  <span class="font-mono text-xs text-mutedText group-hover:text-white transition-colors">04</span>
+                  <div class="font-bold text-base sm:text-lg text-white group-hover:text-neutral-200 transition-colors">
+                    AI Fundamentals
+                  </div>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="card-status font-mono text-[10px] tracking-wider uppercase text-mutedText group-hover:text-white">OPEN +</span>
+                  <span class="chevron font-mono text-xs text-mutedText transition-transform duration-300">&darr;</span>
+                </div>
+              </button>
+
+              <div class="accordion-content">
+                <div class="accordion-inner">
+                  <div class="px-5 pb-6 sm:px-6 border-t border-borderDim pt-5 space-y-4">
+                    <p class="text-xs text-neutral-300">Machine learning architectures, gradient descent, PyTorch, and transformers.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div class="p-4 border border-borderDim bg-[#111111] flex flex-col justify-between">
+                        <div>
+                          <div class="font-mono text-[10px] text-emerald-400 uppercase tracking-widest mb-1.5">// FREE COMMONS</div>
+                          <div class="text-xs text-white font-medium">PyTorch Cheatsheet &amp; Math Derivations</div>
+                        </div>
+                        <button onclick="triggerToast('Downloaded: PyTorch Starter Pack')" class="mt-4 text-left font-mono text-[11px] text-white hover:underline">
+                          Download Pack &darr;
+                        </button>
+                      </div>
+                      <div class="p-4 border border-borderDim bg-pitch flex flex-col justify-between">
+                        <div>
+                          <div class="font-mono text-[10px] text-secondaryText uppercase tracking-widest mb-1.5">// PEER MENTORING</div>
+                          <div class="text-xs text-white font-medium flex items-center justify-between">
+                            <span>Model Architecture Review</span>
+                            <span class="font-mono font-bold">6,000 ₸</span>
+                          </div>
+                        </div>
+                        <button onclick="openBookingModal('AI Fundamentals', 'ML Code Review', '6,000 ₸ (~$14)')" class="mt-4 px-3 py-1.5 bg-white text-pitch font-mono text-[10px] font-bold uppercase hover:bg-neutral-200 transition-colors self-start">
+                          Book Session &rarr;
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Block 05 -->
+            <div id="card-05" class="subject-card border border-borderDim bg-pitch transition-all duration-300 hover:border-neutral-500">
+              <button onclick="toggleCard('card-05')" class="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 focus:outline-none group">
+                <div class="flex items-center gap-4 sm:gap-6">
+                  <span class="font-mono text-xs text-mutedText group-hover:text-white transition-colors">05</span>
+                  <div class="font-bold text-base sm:text-lg text-white group-hover:text-neutral-200 transition-colors">
+                    Fundamentals of Calculus
+                  </div>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="card-status font-mono text-[10px] tracking-wider uppercase text-mutedText group-hover:text-white">OPEN +</span>
+                  <span class="chevron font-mono text-xs text-mutedText transition-transform duration-300">&darr;</span>
+                </div>
+              </button>
+
+              <div class="accordion-content">
+                <div class="accordion-inner">
+                  <div class="px-5 pb-6 sm:px-6 border-t border-borderDim pt-5 space-y-4">
+                    <p class="text-xs text-neutral-300">Limits, partial derivatives, Riemann integration, and Taylor series.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div class="p-4 border border-borderDim bg-[#111111] flex flex-col justify-between">
+                        <div>
+                          <div class="font-mono text-[10px] text-emerald-400 uppercase tracking-widest mb-1.5">// FREE COMMONS</div>
+                          <div class="text-xs text-white font-medium">Formula Handbook &amp; Derivatives Table</div>
+                        </div>
+                        <button onclick="triggerToast('Downloaded: Calculus Formula Table')" class="mt-4 text-left font-mono text-[11px] text-white hover:underline">
+                          Download Table &darr;
+                        </button>
+                      </div>
+                      <div class="p-4 border border-borderDim bg-pitch flex flex-col justify-between">
+                        <div>
+                          <div class="font-mono text-[10px] text-secondaryText uppercase tracking-widest mb-1.5">// PEER MENTORING</div>
+                          <div class="text-xs text-white font-medium flex items-center justify-between">
+                            <span>1-on-1 Proof &amp; Midterm Prep</span>
+                            <span class="font-mono font-bold">5,000 ₸</span>
+                          </div>
+                        </div>
+                        <button onclick="openBookingModal('Fundamentals of Calculus', 'Problem Solving Tutoring', '5,000 ₸ (~$12)')" class="mt-4 px-3 py-1.5 bg-white text-pitch font-mono text-[10px] font-bold uppercase hover:bg-neutral-200 transition-colors self-start">
+                          Book Session &rarr;
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Block 06: Tomorrow School (Intensive Highlight) -->
+            <div id="card-06" class="subject-card border-2 border-white/80 bg-[#0f0f0f] tomorrow-glow transition-all duration-300 relative">
+              <div class="absolute top-0 right-0 px-2.5 py-0.5 bg-white text-pitch font-mono text-[8px] font-black uppercase tracking-wider">
+                INTENSIVE TRACK
+              </div>
+              <button onclick="toggleCard('card-06')" class="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 focus:outline-none group pt-6">
+                <div class="flex items-center gap-4 sm:gap-6">
+                  <span class="font-mono text-xs text-white font-bold">06</span>
+                  <div class="font-black text-base sm:text-xl text-white flex items-center gap-2">
+                    Tomorrow School
+                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="card-status font-mono text-[10px] tracking-wider uppercase text-white font-bold">OPEN +</span>
+                  <span class="chevron font-mono text-xs text-white transition-transform duration-300">&darr;</span>
+                </div>
+              </button>
+
+              <div class="accordion-content">
+                <div class="accordion-inner">
+                  <div class="px-5 pb-6 sm:px-6 border-t border-neutral-700 pt-5 space-y-4">
+                    <p class="text-xs text-neutral-300">01Edu / 42 peer model: Piscine survival guides, Quests 00–12, and mock peer audits.</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                      <div class="p-2 border border-neutral-800 bg-pitch text-[10px] font-mono text-neutral-300">Quest Guides (00–12)</div>
+                      <div class="p-2 border border-neutral-800 bg-pitch text-[10px] font-mono text-neutral-300">Piscine Fieldbook</div>
+                      <div class="p-2 border border-neutral-800 bg-pitch text-[10px] font-mono text-neutral-300">35-Pt Audit Checklist</div>
+                      <div class="p-2 border border-neutral-800 bg-pitch text-[10px] font-mono text-emerald-400 font-semibold">94% Pass Rate</div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div class="p-4 border border-neutral-700 bg-[#121212] flex flex-col justify-between">
+                        <div>
+                          <div class="font-mono text-[10px] text-emerald-400 uppercase tracking-widest mb-1.5">// FREE COMMONS</div>
+                          <div class="text-xs text-white font-medium">Piscine Survival Manual &amp; Self-Audit Checklist</div>
+                        </div>
+                        <button onclick="triggerToast('Downloaded: Tomorrow School Survival Manual')" class="mt-4 text-left font-mono text-[11px] text-white hover:underline">
+                          Download Manual &darr;
+                        </button>
+                      </div>
+                      <div class="p-4 border border-white/60 bg-pitch flex flex-col justify-between">
+                        <div>
+                          <div class="font-mono text-[10px] text-white uppercase tracking-widest mb-1.5">// PEER ACCELERATION</div>
+                          <div class="text-xs text-white font-medium flex items-center justify-between">
+                            <span>1-on-1 Mock Peer Audit with Alum</span>
+                            <span class="font-mono font-bold">6,000 ₸</span>
+                          </div>
+                        </div>
+                        <button onclick="openBookingModal('Tomorrow School', '1-on-1 Mock Peer Audit with Alum', '6,000 ₸')" class="mt-4 px-3 py-1.5 bg-white text-pitch font-mono text-[10px] font-bold uppercase hover:bg-neutral-200 transition-colors self-start">
+                          Book Defense &rarr;
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SECTION .03: NUMI PRO PASS (EXPANDABLE TIERS) -->
+    <section id="pro-pass" class="relative mb-16 sm:mb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-[50px_1fr] gap-6 items-start">
+        
+        <!-- Edge Marker .03 -->
+        <div class="hidden lg:flex flex-col items-center pt-8 text-mutedText font-mono select-none sticky top-24">
+          <span class="text-xs tracking-editorial text-secondaryText font-medium">.03</span>
+          <div class="w-[1px] h-24 bg-borderDim my-4"></div>
+          <span class="vertical-lr text-[10px] tracking-[0.3em] uppercase text-mutedText">TIERS</span>
+        </div>
+
+        <div class="editorial-border bg-charcoal relative p-6 sm:p-10 lg:p-12 overflow-hidden">
+          
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between pb-6 mb-8 border-b border-borderDim gap-4">
+            <div>
+              <div class="font-mono text-[10px] tracking-editorial text-mutedText uppercase mb-1">.03 // MEMBERSHIP</div>
+              <h2 class="text-2xl sm:text-4xl font-bold tracking-tight text-white uppercase">NUMI PRO Pass</h2>
+            </div>
+            <div class="text-xs font-mono text-[#737373]">
+              SELECT TIER TO VIEW PRIVILEGES
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <!-- Tier Block 1: Campus Free Tier -->
+            <div id="tier-free" class="border border-borderDim bg-pitch transition-all duration-300 hover:border-neutral-500">
+              <button onclick="toggleCard('tier-free')" class="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 focus:outline-none group">
+                <div class="flex items-center gap-4">
+                  <span class="font-mono text-xs text-[#737373]">TIER 01</span>
+                  <div class="text-base sm:text-lg font-bold text-white">Campus Free Tier</div>
+                </div>
+                <div class="flex items-center gap-4 shrink-0">
+                  <span class="font-mono font-bold text-sm text-neutral-300">0 ₸</span>
+                  <span class="card-status font-mono text-[10px] tracking-wider uppercase text-[#737373] group-hover:text-white">DETAILS +</span>
+                </div>
+              </button>
+
+              <div class="accordion-content">
+                <div class="accordion-inner">
+                  <div class="px-5 pb-6 sm:px-6 border-t border-[#262626] pt-5 space-y-4">
+                    <div class="space-y-2 text-xs text-neutral-300">
+                      <div class="flex items-center gap-2"><span class="text-emerald-400 font-mono">&check;</span> Public lecture summaries &amp; cheatsheets</div>
+                      <div class="flex items-center gap-2"><span class="text-emerald-400 font-mono">&check;</span> Open student community Telegram &amp; Discord</div>
+                      <div class="flex items-center gap-2"><span class="text-emerald-400 font-mono">&check;</span> Shared syllabus links &amp; readings</div>
+                    </div>
+                    <button onclick="triggerToast('Currently active: Campus Free Tier')" class="py-2 px-4 border border-[#262626] text-[#a1a1a1] hover:text-white font-mono text-xs uppercase transition-colors">
+                      Current Active Tier
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tier Block 2: NUMI PRO Pass -->
+            <div id="tier-pro" class="border-2 border-white bg-[#0e0e0e] shadow-[0_0_35px_-10px_rgba(255,255,255,0.12)] transition-all duration-300">
+              <button onclick="toggleCard('tier-pro')" class="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 focus:outline-none group">
+                <div class="flex items-center gap-4">
+                  <span class="font-mono text-xs text-white font-bold">TIER 02</span>
+                  <div class="text-base sm:text-xl font-black text-white flex items-center gap-2">
+                    NUMI PRO
+                    <span class="text-[9px] px-2 py-0.5 bg-white text-[#0b0b0b] font-mono font-bold">ALL ACCESS</span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4 shrink-0">
+                  <div class="text-right">
+                    <span class="font-mono font-black text-base sm:text-lg text-white">9,900 ₸</span>
+                    <span class="hidden sm:inline font-mono text-[9px] text-[#737373]"> / SEMESTER</span>
+                  </div>
+                  <span class="card-status font-mono text-[10px] tracking-wider uppercase text-white font-bold">DETAILS +</span>
+                </div>
+              </button>
+
+              <div class="accordion-content">
+                <div class="accordion-inner">
+                  <div class="px-5 pb-6 sm:px-6 border-t border-neutral-700 pt-5 space-y-4">
+                    <div class="space-y-2 text-xs text-white font-medium">
+                      <div class="flex items-center gap-2"><span class="font-mono text-white">&check;</span> All assignment solution breakdowns &amp; test suites</div>
+                      <div class="flex items-center gap-2"><span class="font-mono text-white">&check;</span> Tomorrow School Quest Walkthroughs (Quests 00–12)</div>
+                      <div class="flex items-center gap-2"><span class="font-mono text-white">&check;</span> 1-on-1 mentor booking discounts (30% off)</div>
+                      <div class="flex items-center gap-2"><span class="font-mono text-white">&check;</span> 5-year past university exam archives with steps</div>
+                    </div>
+                    <button onclick="openBookingModal('NUMI PRO Pass', 'All-Access Semester Pass', '9,900 ₸')" class="py-3 px-6 bg-white text-pitch hover:bg-neutral-200 font-mono text-xs font-black uppercase tracking-wider transition-all shadow-md flex items-center gap-2">
+                      <span>Get Pro Access</span> &rarr;
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SECTION .04: CONTACT (EXPANDABLE DESK) -->
+    <section id="contact" class="relative mb-12 sm:mb-16">
+      <div class="grid grid-cols-1 lg:grid-cols-[50px_1fr] gap-6 items-start">
+        
+        <!-- Edge Marker .04 -->
+        <div class="hidden lg:flex flex-col items-center pt-8 text-mutedText font-mono select-none">
+          <span class="text-xs tracking-editorial text-secondaryText font-medium">.04</span>
+          <div class="w-[1px] h-24 bg-borderDim my-4"></div>
+          <span class="vertical-lr text-[10px] tracking-[0.3em] uppercase text-mutedText">CONTACT</span>
+        </div>
+
+        <div class="editorial-border bg-charcoal relative p-6 sm:p-10 lg:p-12 overflow-hidden">
+          
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between pb-6 mb-8 border-b border-borderDim gap-4">
+            <div>
+              <div class="font-mono text-[10px] tracking-editorial text-mutedText uppercase mb-1">.04 // CONTACT</div>
+              <h2 class="text-2xl sm:text-4xl font-black tracking-tight text-white uppercase">Get in Touch</h2>
+            </div>
+            <div class="flex items-center gap-2.5 font-mono text-xs">
+              <a href="https://t.me" target="_blank" rel="noopener noreferrer" class="px-3 py-1 border border-[#262626] hover:border-white text-[#a1a1a1] hover:text-white transition-colors">Telegram</a>
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="px-3 py-1 border border-[#262626] hover:border-white text-[#a1a1a1] hover:text-white transition-colors">GitHub</a>
+              <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="px-3 py-1 border border-[#262626] hover:border-white text-[#a1a1a1] hover:text-white transition-colors">Discord</a>
+            </div>
+          </div>
+
+          <!-- Clean Contact Block -->
+          <div id="contact-block" class="border border-borderDim bg-pitch p-5 sm:p-6">
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-borderDim text-xs font-mono">
+              <span class="text-white uppercase font-semibold">DIRECT INQUIRY DESK</span>
+              <span class="text-[#737373]">support@numi.edu</span>
+            </div>
+
+            <form onsubmit="handleContactSubmit(event)" class="space-y-3">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input type="text" required placeholder="Your Name" class="w-full bg-[#121212] border border-borderDim px-3.5 py-2 text-xs text-white placeholder-neutral-600 focus:outline-none focus:border-white font-mono">
+                <input type="text" required placeholder="Telegram @handle or Email" class="w-full bg-[#121212] border border-borderDim px-3.5 py-2 text-xs text-white placeholder-neutral-600 focus:outline-none focus:border-white font-mono">
+              </div>
+              <textarea rows="2" required placeholder="Your request or question..." class="w-full bg-[#121212] border border-borderDim px-3.5 py-2 text-xs text-white placeholder-neutral-600 focus:outline-none focus:border-white font-mono resize-none"></textarea>
+              <button type="submit" class="w-full py-2.5 bg-white text-[#0b0b0b] hover:bg-neutral-200 font-mono text-xs font-bold uppercase transition-colors flex items-center justify-center gap-1.5">
+                <span>Send Message</span> &rarr;
+              </button>
+            </form>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-[#262626] flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-[#737373] gap-2">
+            <div class="text-white font-bold tracking-widest">NUMI • UNIVERSITY HUB</div>
+            <div>&copy; 2026. All rights reserved.</div>
+            <div>.01 — .02 — .03 — .04</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- INTERACTIVE BOOKING / PAYWALL MODAL -->
+  <div id="booking-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-pitch/80 backdrop-blur-md hidden-modal">
+    <div id="modal-box" class="editorial-border bg-charcoal w-full max-w-md p-6 relative shadow-2xl overflow-hidden">
+      
+      <div class="absolute top-0 left-0 right-0 h-1 bg-white"></div>
+
+      <button onclick="closeBookingModal()" class="absolute top-4 right-4 w-7 h-7 border border-borderDim hover:border-white flex items-center justify-center font-mono text-xs text-mutedText hover:text-white transition-colors" aria-label="Close modal">
+        &times;
+      </button>
+
+      <div class="pb-4 mb-4 border-b border-borderDim pr-6">
+        <div class="font-mono text-[9px] tracking-widest text-emerald-400 uppercase mb-0.5">DISPATCH READY</div>
+        <h3 id="modal-service-title" class="text-lg font-bold text-white tracking-tight">1-on-1 Code Review</h3>
+        <div class="flex items-center gap-2 mt-1 font-mono text-xs">
+          <span id="modal-subject-tag" class="px-2 py-0.5 border border-borderDim text-secondaryText text-[9px]">Introduction to Programming</span>
+          <span id="modal-price-tag" class="font-bold text-white">5,000 ₸</span>
+        </div>
+      </div>
+
+      <form onsubmit="handleBookingSubmit(event)" class="space-y-3">
+        <div>
+          <label class="block font-mono text-[9px] text-mutedText uppercase mb-1">Student Name</label>
+          <input type="text" id="booking-name" required placeholder="e.g. Alikhan" class="w-full bg-pitch border border-borderDim px-3 py-2 text-xs text-white placeholder-neutral-600 focus:outline-none focus:border-white font-mono">
+        </div>
+
+        <div>
+          <label class="block font-mono text-[9px] text-mutedText uppercase mb-1">Telegram @handle or Email</label>
+          <input type="text" id="booking-contact" required placeholder="@username or student@nu.edu.kz" class="w-full bg-pitch border border-borderDim px-3 py-2 text-xs text-white placeholder-neutral-600 focus:outline-none focus:border-white font-mono">
+        </div>
+
+        <div>
+          <label class="block font-mono text-[9px] text-mutedText uppercase mb-1">Preferred Time</label>
+          <input type="text" id="booking-time" required placeholder="e.g. Tomorrow at 18:00" class="w-full bg-pitch border border-borderDim px-3 py-2 text-xs text-white placeholder-neutral-600 focus:outline-none focus:border-white font-mono">
+        </div>
+
+        <div class="pt-2">
+          <button type="submit" class="w-full py-3 bg-white text-pitch hover:bg-neutral-200 font-mono text-xs font-bold uppercase transition-colors flex items-center justify-center gap-1.5">
+            <span>Confirm &amp; Contact Mentor</span> &rarr;
+          </button>
+        </div>
+      </form>
+
+      <div class="mt-3 pt-2 border-t border-borderDim/70 text-center font-mono text-[9px] text-mutedText">
+        NO ADVANCE CHARGE &bull; DIRECT TELEGRAM DISPATCH
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Feedback Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-white text-pitch px-4 py-2.5 border border-neutral-300 shadow-xl flex items-center gap-2.5 font-mono text-xs">
+    <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+    <span id="toast-message">Action confirmed.</span>
+  </div>
+
+  <!-- Client Scripts: Dynamic Logo Decoder, Collapsible Blocks, Modal, and MASSIVE GLYPH CURSOR TRAIL -->
+  <script>
+    /* -------------------------------------------------------------
+       1. CINEMATIC NUMI LOGO REVEAL & LIVING STATE ENGINE
+       - Runs strictly ONCE upon initial appearance (page load).
+       - Deliberate, high-quality, staggered letter decode (~2.5s).
+       - Seamlessly transitions into a permanent "living" state with
+         organic luminescence, titanium shimmer, and subtle float.
+       ------------------------------------------------------------- */
+    (function initLivingNumiLogo() {
+      const heroTitle = document.getElementById('hero-numi-title');
+      if (!heroTitle) return;
+
+      const charSpans = heroTitle.querySelectorAll('.numi-char');
+      const targetWord = ['N', 'U', 'M', 'I'];
+      const DECODE_GLYPHS = ['0', '1', 'X', 'Z', '7', '/', '#', '>', '<', '_', '%', '&', 'Δ', 'Ξ'];
+
+      // Deliberate, cinematic lock-in timing for each letter (total ~2.5s)
+      const lockDelays = [850, 1400, 1950, 2500];
+      const isLocked = [false, false, false, false];
+
+      let startTime = null;
+      let lastGlyphTick = 0;
+      const GLYPH_INTERVAL = 65; // High-quality mechanical glyph flux (crisp ~15fps cadence)
+
+      function startReveal() {
+        startTime = performance.now();
+
+        // 1. Initial smooth fade-in & focus resolve
+        charSpans.forEach((span, idx) => {
+          setTimeout(() => {
+            span.style.opacity = '1';
+            span.style.filter = 'blur(0px)';
+            span.style.transform = 'translateY(0px)';
+          }, idx * 75);
+        });
+
+        // 2. Decoder animation loop
+        function decodeLoop(now) {
+          const elapsed = now - startTime;
+
+          // Throttle glyph changes so they feel deliberate & legible
+          const shouldUpdateGlyphs = (now - lastGlyphTick) >= GLYPH_INTERVAL;
+          if (shouldUpdateGlyphs) {
+            lastGlyphTick = now;
+          }
+
+          let allDone = true;
+
+          for (let i = 0; i < 4; i++) {
+            const span = charSpans[i];
+            if (!span) continue;
+
+            if (elapsed >= lockDelays[i]) {
+              if (!isLocked[i]) {
+                isLocked[i] = true;
+                span.textContent = targetWord[i];
+                span.classList.add('char-locked');
+                setTimeout(() => span.classList.remove('char-locked'), 280);
+              }
+            } else {
+              allDone = false;
+              if (shouldUpdateGlyphs) {
+                span.textContent = DECODE_GLYPHS[Math.floor(Math.random() * DECODE_GLYPHS.length)];
+              }
+            }
+          }
+
+          if (!allDone) {
+            requestAnimationFrame(decodeLoop);
+          } else {
+            // Entrance sequence complete -> Activate permanent living state!
+            setTimeout(() => {
+              heroTitle.classList.add('is-alive');
+            }, 300);
+          }
+        }
+
+        requestAnimationFrame(decodeLoop);
+      }
+
+      // Single-pass header logo reveal
+      function decodeHeaderLogo() {
+        const headerText = document.getElementById('header-logo-text');
+        if (!headerText) return;
+        const target = 'NUMI';
+        const start = performance.now();
+        const dur = 1350;
+
+        function step(now) {
+          const progress = Math.min((now - start) / dur, 1);
+          let res = '';
+          for (let i = 0; i < target.length; i++) {
+            if (progress >= (i + 1) / (target.length + 0.4)) {
+              res += target[i];
+            } else {
+              res += DECODE_GLYPHS[Math.floor(Math.random() * DECODE_GLYPHS.length)];
+            }
+          }
+          headerText.textContent = res;
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            headerText.textContent = target;
+          }
+        }
+        requestAnimationFrame(step);
+      }
+
+      if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', () => {
+          setTimeout(startReveal, 200);
+          setTimeout(decodeHeaderLogo, 400);
+        });
+      } else {
+        setTimeout(startReveal, 200);
+        setTimeout(decodeHeaderLogo, 400);
+      }
+    })();
+
+    /* -------------------------------------------------------------
+       2. MASSIVE GLYPH CURSOR PARTICLE TRAIL (ZERO CIRCLES)
+       - Pure massive typography: ['o', '>', '_']
+       - Size: 36px - 44px bold monospace
+       - Dynamic velocity drift along movement vector
+       - Smooth fading from 0.85 to 0
+       ------------------------------------------------------------- */
+    (function initMassiveGlyphTrail() {
+      const canvas = document.getElementById('cursor-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.scale(dpr, dpr);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      // Sharp, massive non-circular terminal glyphs (zero circles, pure typography)
+      const GLYPHS = ['>', '_', '/'];
+      let glyphIndex = 0;
+
+      // Distance threshold: ~26px so massive glyphs form a rhythmic typographic ribbon
+      const DISTANCE_THRESHOLD = 26;
+      let lastSpawn = { x: -9999, y: -9999 };
+      let particles = [];
+
+      window.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+
+        const dx = mouseX - lastSpawn.x;
+        const dy = mouseY - lastSpawn.y;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist >= DISTANCE_THRESHOLD) {
+          const angle = Math.atan2(dy, dx);
+          const char = GLYPHS[glyphIndex % GLYPHS.length];
+          glyphIndex++;
+
+          // Spawn truly massive glyph
+          particles.push({
+            x: mouseX,
+            y: mouseY,
+            char: char,
+            angle: angle,
+            size: 46, // Massive bold typography
+            vx: Math.cos(angle) * 0.8,
+            vy: Math.sin(angle) * 0.8,
+            opacity: 0.92,
+            decay: 0.018 // Smooth cinematic decay
+          });
+
+          lastSpawn.x = mouseX;
+          lastSpawn.y = mouseY;
+        }
+      });
+
+      function render() {
+        ctx.clearRect(0, 0, width, height);
+
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+
+          p.x += p.vx;
+          p.y += p.vy;
+          p.opacity -= p.decay;
+
+          if (p.opacity <= 0) {
+            particles.splice(i, 1);
+            continue;
+          }
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.angle);
+
+          // Truly massive bold monospace typography
+          ctx.font = `900 ${p.size}px "JetBrains Mono", monospace`;
+
+          // Clean, crisp high-contrast glow on glyph itself — strictly ZERO background circles
+          ctx.shadowColor = `rgba(255, 255, 255, ${p.opacity * 0.55})`;
+          ctx.shadowBlur = 12;
+          ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+
+          ctx.fillText(p.char, 0, 0);
+          ctx.restore();
+        }
+
+        requestAnimationFrame(render);
+      }
+
+      requestAnimationFrame(render);
+    })();
+
+    /* -------------------------------------------------------------
+       3. MODAL & TOAST HANDLERS
+       ------------------------------------------------------------- */
+    let toastTimeout;
+    function triggerToast(message) {
+      const toast = document.getElementById('toast');
+      const msgElem = document.getElementById('toast-message');
+      msgElem.textContent = message;
+      toast.classList.add('show');
+      
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2800);
+    }
+
+    function openBookingModal(subject, service, price) {
+      const modal = document.getElementById('booking-modal');
+      document.getElementById('modal-subject-tag').textContent = subject;
+      document.getElementById('modal-service-title').textContent = service;
+      document.getElementById('modal-price-tag').textContent = price;
+      
+      modal.classList.remove('hidden-modal');
+      modal.classList.add('visible-modal');
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        const input = document.getElementById('booking-name');
+        if (input) input.focus();
+      }, 100);
+    }
+
+    function closeBookingModal() {
+      const modal = document.getElementById('booking-modal');
+      modal.classList.remove('visible-modal');
+      modal.classList.add('hidden-modal');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeBookingModal();
+    });
+
+    document.getElementById('booking-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'booking-modal') closeBookingModal();
+    });
+
+    function handleBookingSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('booking-name').value;
+      const contact = document.getElementById('booking-contact').value;
+      closeBookingModal();
+      triggerToast(`Confirmed for ${name} (${contact})! Peer mentor notified.`);
+      e.target.reset();
+    }
+
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      triggerToast("Inquiry dispatched! We will reply via Telegram.");
+      e.target.reset();
+    }
+
+    /* -------------------------------------------------------------
+       4. ACCORDION BLOCK EXPANSION (OPEN ON CLICK ONLY)
+       ------------------------------------------------------------- */
+    function toggleCard(cardId, forceOpen = false) {
+      const card = document.getElementById(cardId);
+      if (!card) return;
+      
+      const content = card.querySelector('.accordion-content');
+      const chevron = card.querySelector('.chevron');
+      const statusText = card.querySelector('.card-status');
+      const isOpen = content.classList.contains('open');
+
+      if (forceOpen || !isOpen) {
+        content.classList.add('open');
+        if (chevron) chevron.style.transform = 'rotate(180deg)';
+        if (statusText) statusText.textContent = 'CLOSE −';
+        card.classList.add('border-white/70');
+      } else {
+        content.classList.remove('open');
+        if (chevron) chevron.style.transform = 'rotate(0deg)';
+        if (statusText) statusText.textContent = 'OPEN +';
+        card.classList.remove('border-white/70');
+      }
+    }
+  </script>
+
+</body>
+</html>
